@@ -6,9 +6,9 @@ export const useApi = ({ method, params }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState();
 
-  useEffect(
-    () =>
-      (async () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
         setIsLoading(true);
 
         const response = await fetch(API_URL, {
@@ -29,9 +29,13 @@ export const useApi = ({ method, params }) => {
 
         setData(await response.json());
         setIsLoading(false);
-      })(),
-    [setIsLoading, setData]
-  );
+      } catch (e) {
+        console.log("error", e);
+      }
+    };
+
+    fetchData();
+  }, [setIsLoading, setData]);
 
   return { isLoading, data };
 };
