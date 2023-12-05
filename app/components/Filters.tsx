@@ -1,3 +1,5 @@
+"use client";
+
 import useFilterStore from "../store/filters";
 import Dropdown from "./Dropdown";
 
