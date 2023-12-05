@@ -4,7 +4,8 @@
 
 - Install the dependencies: `yarn install`
 - Run the development server: `yarn dev`
-- Execute the tests: `yarn test`
+- Execute the integration tests: `yarn test`
+- Execute the end-to-end tests: `yarn e2e`
 
 ## Assignment
 
