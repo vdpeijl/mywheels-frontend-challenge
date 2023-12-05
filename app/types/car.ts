@@ -1,3 +1,26 @@
 export type Car = {
   id: string;
+  brand: string;
+  model: string;
+  fuelType: string;
+  city: string;
+  location: string;
+  streetNumber: string;
+  latitude: number;
+  longitude: number;
+  price: {
+    id: number;
+    hourRate: string;
+    kilometerRate: string;
+    fuelPerKilometer: string;
+    dayRateTotal: string;
+  };
+};
+
+export type CarFilter = {
+  onlyAvailable?: boolean;
+  models?: string[];
+  fuelType?: string;
+  towbar?: boolean;
+  winterTires?: boolean;
 };

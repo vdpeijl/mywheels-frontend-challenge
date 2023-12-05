@@ -25,7 +25,6 @@ export async function api<T>({ method, params }) {
 
     return (await response.json()) as DTO<T>;
   } catch (e) {
-    console.log(e);
     return null;
   }
 }
