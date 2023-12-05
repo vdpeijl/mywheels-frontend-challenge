@@ -1,5 +1,6 @@
 export type Car = {
   id: string;
+  alias: string;
   brand: string;
   model: string;
   fuelType: string;
