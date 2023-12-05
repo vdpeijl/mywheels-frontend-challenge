@@ -16,8 +16,8 @@ export default function Page() {
     <div className="flex gap-12 p-12">
       <div>
         <div className="bg-white rounded-xl p-6 w-96">
-          <label>
-            <h1>Towbar?</h1>
+          <label data-test="filter-towbar">
+            <h1>Trekhaak?</h1>
             <input
               type="checkbox"
               checked={towbar}
@@ -30,8 +30,9 @@ export default function Page() {
       <div className="bg-white rounded-xl flex-1">
         {data.result.results.map((car) => (
           <div key={car.resource.id} className="py-2 px-6">
-            <div>
-              {car.resource.brand} {car.resource.model}
+            <div className="car">
+              {car.resource.brand} {car.resource.model}{" "}
+              {car.resource.options.towbar && "trekhaak"}
             </div>
           </div>
         ))}

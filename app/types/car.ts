@@ -15,6 +15,12 @@ export type Car = {
     fuelPerKilometer: string;
     dayRateTotal: string;
   };
+  options: {
+    automatic: boolean;
+    id: number;
+    towbar: boolean;
+    winterTires: boolean;
+  };
 };
 
 export type CarFilter = {
