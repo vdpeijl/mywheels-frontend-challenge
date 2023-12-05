@@ -47,16 +47,19 @@ export default function Filters() {
         title="Opties"
         values={[
           {
+            id: 1,
             title: "Trekhaak",
             value: towbar,
             onChange: () => setTowbar(!towbar),
           },
           {
+            id: 2,
             title: "Nu beschikbaar",
             value: onlyAvailable,
             onChange: () => setOnlyAvailable(!onlyAvailable),
           },
           {
+            id: 3,
             title: "Winterbanden",
             value: winterTires,
             onChange: () => setWinterTires(!winterTires),
@@ -81,7 +84,8 @@ export default function Filters() {
 
       <Dropdown
         title="Modellen"
-        values={availableModels.map((model) => ({
+        values={availableModels.map((model, index) => ({
+          id: index,
           title: model,
           value: models.includes(model),
           onChange: () => handleModelChange(model),
@@ -105,7 +109,8 @@ export default function Filters() {
 
       <Dropdown
         title="Brandstof"
-        values={availableFuelTypes.map((ft) => ({
+        values={availableFuelTypes.map((ft, index) => ({
+          id: index,
           title: ft,
           value: fuelType === ft,
           onChange: () => setFuelType(ft),

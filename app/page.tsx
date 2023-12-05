@@ -7,7 +7,7 @@ import Card from "./components/Card";
 import Filters from "./components/Filters";
 import { useEffect } from "react";
 import Label from "./components/Label";
-import { Location } from "./components/icons";
+import { Location, Check, Cross } from "./components/icons";
 import { format } from "./lib/currency";
 
 export default function Page() {
@@ -98,20 +98,46 @@ export default function Page() {
 
                 <div className="grid flex-grow content-end">
                   {/* Options: */}
-                  <p className="text-sm">
-                    {item.availability ? "Beschikbaar" : "Niet beschikbaar"}
-                  </p>
-                  <p className="text-sm">
-                    {item.resource.options.towbar
-                      ? "Trekhaak"
-                      : "Geen trekhaak"}
-                  </p>
+                  <div className="text-sm">
+                    {item.availability ? (
+                      <div className="flex">
+                        <Check className="text-xl text-green-500" />
+                        <span>Beschikbaar</span>
+                      </div>
+                    ) : (
+                      <div className="flex">
+                        <Cross className="text-xl text-red-500" />
+                        <span>Niet beschikbaar</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-sm">
+                    {item.resource.options.towbar ? (
+                      <div className="flex">
+                        <Check className="text-xl text-green-500" />
+                        <span>Trekhaak</span>
+                      </div>
+                    ) : (
+                      <div className="flex">
+                        <Cross className="text-xl text-red-500" />
+                        <span>Geen trekhaak</span>
+                      </div>
+                    )}
+                  </div>
 
-                  <p className="text-sm">
-                    {item.resource.options.winterTires
-                      ? "Winterbanden"
-                      : "Geen winterbanden"}
-                  </p>
+                  <div className="text-sm">
+                    {item.resource.options.winterTires ? (
+                      <div className="flex">
+                        <Check className="text-xl text-green-500" />
+                        <span>Winterbanden</span>
+                      </div>
+                    ) : (
+                      <div className="flex">
+                        <Cross className="text-xl text-red-500" />
+                        <span>Geen winterbanden</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </Card>
             );
