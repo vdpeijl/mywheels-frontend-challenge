@@ -16,7 +16,7 @@ export default function Dropdown<T>(props: Props<T>) {
   const ref = useOutsideClick(() => setOpen(false));
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative cursor-pointer">
       <div
         data-test="dropdown-trigger"
         onClick={() => setOpen(!open)}

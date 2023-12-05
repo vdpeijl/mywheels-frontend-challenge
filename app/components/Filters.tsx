@@ -30,11 +30,12 @@ export default function Filters() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex gap-4">
       <div>
         <input
+          data-test="search"
           placeholder="Zoek op merk of model"
-          className="rounded-full border text-sm px-4 py-1 w-[300px]"
+          className="rounded-full border text-sm px-4 py-[2px] w-[300px]"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
