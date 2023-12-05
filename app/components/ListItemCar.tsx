@@ -10,7 +10,7 @@ export default function ListItemCar(props: Props) {
 
   return (
     <div className="p-4">
-      {index} {item.brand}
+      {item.brand} {item.model}
     </div>
   );
 }

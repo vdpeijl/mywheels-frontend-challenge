@@ -5,17 +5,33 @@ import useFilterStore from "./store/filters";
 import List from "./components/List";
 import ListItemCar from "./components/ListItemCar";
 import Filters from "./components/Filters";
+import { useEffect } from "react";
 
 export default function Page() {
   const query = useFilterStore((state) => state.query);
   const towbar = useFilterStore((state) => state.towbar);
+  const models = useFilterStore((state) => state.models);
+  const fuelType = useFilterStore((state) => state.fuelType);
+  const onlyAvailable = useFilterStore((state) => state.onlyAvailable);
+  const winterTires = useFilterStore((state) => state.winterTires);
+
   const filter = useFilterStore((state) => state.filter);
   const search = useFilterStore((state) => state.search);
-  const { data, error } = useCars({ towbar });
+  const setInitialFilterData = useFilterStore(
+    (state) => state.setInitialFilterData
+  );
 
-  if (!data.result || error) {
-    return <div>Something went wrong!</div>;
-  }
+  const { data } = useCars({
+    towbar,
+    models,
+    fuelType,
+    onlyAvailable,
+    winterTires,
+  });
+
+  useEffect(() => {
+    setInitialFilterData(data.result.results);
+  }, []);
 
   const filtered = filter(data.result.results);
   const searched = search(data.result.results, query);
