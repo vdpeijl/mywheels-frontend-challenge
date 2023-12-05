@@ -17,6 +17,7 @@ export default function Page() {
   const fuelType = useFilterStore((state) => state.fuelType);
   const onlyAvailable = useFilterStore((state) => state.onlyAvailable);
   const winterTires = useFilterStore((state) => state.winterTires);
+  const priceRange = useFilterStore((state) => state.priceRange);
 
   const filter = useFilterStore((state) => state.filter);
   const search = useFilterStore((state) => state.search);
@@ -38,7 +39,12 @@ export default function Page() {
 
   const filtered = filter(data.result.results);
   const searched = search(data.result.results, query);
-  const cars = searched.filter((car) => {
+  const inPriceRange = searched.filter((car) => {
+    const hourRate = parseFloat(car.resource.price.hourRate);
+    return hourRate >= priceRange[0] && hourRate <= priceRange[1];
+  });
+
+  const cars = inPriceRange.filter((car) => {
     return !filtered.find((item) => item.resource.id === car.resource.id);
   });
 

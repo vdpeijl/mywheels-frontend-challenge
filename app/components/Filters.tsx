@@ -2,6 +2,7 @@
 
 import useFilterStore from "../store/filters";
 import Dropdown from "./Dropdown";
+import Slider from "./Slider";
 
 export default function Filters() {
   const models = useFilterStore((state) => state.models);
@@ -11,10 +12,16 @@ export default function Filters() {
   const onlyAvailable = useFilterStore((state) => state.onlyAvailable);
   const winterTires = useFilterStore((state) => state.winterTires);
 
+  const availableRates = useFilterStore((state) => state.availableRates);
   const availableModels = useFilterStore((state) => state.availableModels);
   const availableFuelTypes = useFilterStore(
     (state) => state.availableFuelTypes
   );
+
+  const marks = availableRates.reduce((acc, item) => {
+    acc[item] = item;
+    return acc;
+  }, {});
 
   const setQuery = useFilterStore((state) => state.setQuery);
   const setTowbar = useFilterStore((state) => state.setTowbar);
@@ -22,6 +29,7 @@ export default function Filters() {
   const setFuelType = useFilterStore((state) => state.setFuelType);
   const setOnlyAvailable = useFilterStore((state) => state.setOnlyAvailable);
   const setWinterTires = useFilterStore((state) => state.setWinterTires);
+  const setPriceRange = useFilterStore((state) => state.setPriceRange);
 
   function handleModelChange(model: string) {
     if (models.includes(model)) {
@@ -128,6 +136,29 @@ export default function Filters() {
               />
               <span className="text-sm capitalize">{item.title}</span>
             </label>
+          );
+        }}
+      />
+
+      <Dropdown
+        title="Prijs"
+        values={[
+          {
+            id: 1,
+            min: 0,
+            max: 100,
+          },
+        ]}
+        render={() => {
+          return (
+            <div className="py-2 px-6 min-w-[200px]">
+              <Slider
+                min={availableRates[0]}
+                max={availableRates[availableRates.length - 1]}
+                marks={marks}
+                onChange={setPriceRange}
+              />
+            </div>
           );
         }}
       />

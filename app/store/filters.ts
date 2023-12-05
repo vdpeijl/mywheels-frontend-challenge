@@ -5,12 +5,15 @@ import { Car } from "../types/car";
 interface FilterState {
   availableFuelTypes: string[];
   availableModels: string[];
+  availableRates: number[];
+
   query: string;
   towbar: boolean;
   models: string[];
   fuelType: string;
   onlyAvailable: boolean;
   winterTires: boolean;
+  priceRange: [number, number];
 
   setTowbar: (towbar: boolean) => void;
   setQuery: (query: string) => void;
@@ -18,6 +21,7 @@ interface FilterState {
   setFuelType: (fuelType: string) => void;
   setOnlyAvailable: (onlyAvailable: boolean) => void;
   setWinterTires: (winterTires: boolean) => void;
+  setPriceRange: (priceRange: [number, number]) => void;
 
   filter: (resources: Resource<Car>[]) => Resource<Car>[];
   search: (resources: Resource<Car>[], query: string) => Resource<Car>[];
@@ -27,6 +31,7 @@ interface FilterState {
 const useFilterStore = create<FilterState>()((set, get) => ({
   availableFuelTypes: [],
   availableModels: [],
+  availableRates: [],
 
   query: "",
   towbar: false,
@@ -34,6 +39,7 @@ const useFilterStore = create<FilterState>()((set, get) => ({
   fuelType: null,
   onlyAvailable: false,
   winterTires: false,
+  priceRange: [0, 0],
 
   setTowbar: (towbar) => set({ towbar }),
   setQuery: (query) => set({ query }),
@@ -41,6 +47,7 @@ const useFilterStore = create<FilterState>()((set, get) => ({
   setFuelType: (fuelType) => set({ fuelType }),
   setOnlyAvailable: (onlyAvailable) => set({ onlyAvailable }),
   setWinterTires: (winterTires) => set({ winterTires }),
+  setPriceRange: (priceRange) => set({ priceRange }),
 
   /** Client side filters */
   filter: (resources) => {
@@ -69,10 +76,20 @@ const useFilterStore = create<FilterState>()((set, get) => ({
       .map(({ resource }) => resource.fuelType)
       .filter((m) => m !== null);
 
+    const rates = resources
+      .map(({ resource }) => parseFloat(resource.price.hourRate))
+      .filter((m) => m !== 0.01);
+
     const uniqueModels = [...new Set(models)];
     const uniqueFuelTypes = [...new Set(fuelTypes)];
+    const uniqueRates = [...new Set(rates)].sort((a, b) => a - b);
 
-    set({ availableModels: uniqueModels, availableFuelTypes: uniqueFuelTypes });
+    set({
+      availableModels: uniqueModels,
+      availableFuelTypes: uniqueFuelTypes,
+      availableRates: uniqueRates,
+      priceRange: [uniqueRates[0], uniqueRates[uniqueRates.length - 1]],
+    });
   },
 }));
 
