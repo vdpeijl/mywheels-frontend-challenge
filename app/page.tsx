@@ -3,7 +3,7 @@
 import { useCars } from "./hooks/cars";
 import useFilterStore from "./store/filters";
 import List from "./components/List";
-import ListItemCar from "./components/ListItemCar";
+import Card from "./components/Card";
 import Filters from "./components/Filters";
 import { useEffect } from "react";
 
@@ -40,23 +40,58 @@ export default function Page() {
   });
 
   return (
-    <div className="flex gap-12 p-12">
-      <div>
-        <div className="bg-white rounded-xl p-6 w-96">
-          <Filters total={cars.length} />
+    <div className="p-12 w-[1024px] m-auto">
+      <div className="mb-4">
+        <div className="bg-white rounded-full p-6 shadow-xl">
+          <Filters />
+        </div>
+
+        <div className="text-right text-white mt-4 pr-8">
+          <span>
+            {cars.length === 0 ? "Geen" : cars.length} resultaten gevonden
+          </span>
         </div>
       </div>
 
       <div className="flex-1">
-        <div className="bg-white rounded-xl">
-          <List
-            keyAttribute="resource.id"
-            values={cars}
-            render={(item, index) => {
-              return <ListItemCar item={item.resource} index={index} />;
-            }}
-          />
-        </div>
+        <List
+          className="grid grid-cols-3 gap-6"
+          keyAttribute="resource.id"
+          values={cars}
+          render={(item, index) => {
+            return (
+              <Card>
+                <h3 className="text-xl font-medium">{item.resource.brand}</h3>
+                <p className="text-sm">{item.resource.model}</p>
+                <p className="text-sm">{item.resource.fuelType}</p>
+
+                {/* Address: */}
+                <p className="text-sm">
+                  {item.resource.location}
+                  {item.resource.streetNumber
+                    ? ` ${item.resource.streetNumber}`
+                    : ""}
+                  , {item.resource.city}
+                </p>
+
+                {/* Options: */}
+
+                <p className="text-sm">
+                  {item.availability ? "Beschikbaar" : "Niet beschikbaar"}
+                </p>
+                <p className="text-sm">
+                  {item.resource.options.towbar ? "Trekhaak" : "Geen trekhaak"}
+                </p>
+
+                <p className="text-sm">
+                  {item.resource.options.winterTires
+                    ? "Winterbanden"
+                    : "Geen winterbanden"}
+                </p>
+              </Card>
+            );
+          }}
+        />
       </div>
     </div>
   );

@@ -7,15 +7,8 @@
     "build": "next build",
     "start": "next start -p 9009",
     "lint": "next lint",
-    "test": "jest test",
-    "e2e": "start-server-and-test dev http://localhost:9009 \"cypress open --e2e\"",
-    "e2e:headless": "start-server-and-test dev http://localhost:9009 \"cypress run --e2e\""
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "<rootDir>/app/setupTests.js"
-    ]
+    "e2e": "cypress run --e2e",
+    "test": "cypress run --component"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.12.2",
@@ -26,8 +19,6 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.4",
     "@types/lodash.get": "^4.4.9",
     "autoprefixer": "^10.4.16",
     "cypress": "^13.6.0",

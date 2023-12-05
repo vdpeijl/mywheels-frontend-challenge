@@ -53,9 +53,9 @@ const useFilterStore = create<FilterState>()((set, get) => ({
   search: (resources, query) => {
     return resources.filter(({ resource }) => {
       if (query === "") return true;
-      const isQuery = resource.brand
-        ?.toLowerCase()
-        .includes(query.toLowerCase());
+      const isQuery =
+        resource.brand?.toLowerCase().includes(query.toLowerCase()) ||
+        resource.model?.toLowerCase().includes(query.toLowerCase());
       return isQuery;
     });
   },

@@ -10,9 +10,7 @@ export default function Loading() {
       </div>
 
       <div className="flex-1">
-        <div className="bg-white rounded-xl">
-          <div className="p-4">Loading...</div>
-        </div>
+        <div className="p-4">Loading...</div>
       </div>
     </div>
   );

@@ -1,11 +1,7 @@
 import useFilterStore from "../store/filters";
+import Dropdown from "./Dropdown";
 
-type Props = {
-  total: number;
-};
-
-export default function Filters(props: Props) {
-  const { total } = props;
+export default function Filters() {
   const models = useFilterStore((state) => state.models);
   const fuelType = useFilterStore((state) => state.fuelType);
   const towbar = useFilterStore((state) => state.towbar);
@@ -34,60 +30,90 @@ export default function Filters(props: Props) {
   }
 
   return (
-    <div>
-      <h1>total: {total}</h1>
-      <input value={query} onChange={(e) => setQuery(e.target.value)} />
-
-      <label data-test="filter-towbar">
-        <h1>Trekhaak?</h1>
+    <div className="flex">
+      <div>
         <input
-          type="checkbox"
-          checked={towbar}
-          onChange={() => setTowbar(!towbar)}
+          placeholder="Zoek op merk of model"
+          className="rounded-full border text-sm px-4 py-1 w-[300px]"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
-      </label>
+      </div>
 
-      <label data-test="filter-available">
-        <h1>Beschikbaar?</h1>
-        <input
-          type="checkbox"
-          checked={onlyAvailable}
-          onChange={() => setOnlyAvailable(!onlyAvailable)}
-        />
-      </label>
+      <Dropdown
+        title="Opties"
+        values={[
+          {
+            title: "Trekhaak?",
+            value: towbar,
+            onChange: () => setTowbar(!towbar),
+          },
+          {
+            title: "Beschikbaar?",
+            value: onlyAvailable,
+            onChange: () => setOnlyAvailable(!onlyAvailable),
+          },
+          {
+            title: "Winterbanden?",
+            value: winterTires,
+            onChange: () => setWinterTires(!winterTires),
+          },
+        ]}
+        render={(item, index) => {
+          return (
+            <label key={index} className="flex flex-row">
+              <input
+                type="checkbox"
+                checked={item.value}
+                onChange={() => item.onChange()}
+              />
+              <span className="text-sm">{item.title}</span>
+            </label>
+          );
+        }}
+      />
 
-      <label data-test="filter-available">
-        <h1>Winterbanden?</h1>
-        <input
-          type="checkbox"
-          checked={winterTires}
-          onChange={() => setWinterTires(!winterTires)}
-        />
-      </label>
+      <Dropdown
+        title="Modellen"
+        values={availableModels.map((model) => ({
+          title: model,
+          value: models.includes(model),
+          onChange: () => handleModelChange(model),
+        }))}
+        render={(item, index) => {
+          return (
+            <label key={index} className="flex flex-row min-w-[200px]">
+              <input
+                type="checkbox"
+                checked={item.value}
+                onChange={() => item.onChange()}
+              />
+              <span className="text-sm">{item.title}</span>
+            </label>
+          );
+        }}
+      />
 
-      <h1>Models</h1>
-      {availableModels.map((model) => (
-        <label key={model} className="flex flex-row">
-          <input
-            type="checkbox"
-            checked={models.includes(model)}
-            onChange={() => handleModelChange(model)}
-          />
-          {model}
-        </label>
-      ))}
-
-      <h1>FuelType</h1>
-      {availableFuelTypes.map((ft) => (
-        <label key={ft} className="flex flex-row">
-          <input
-            type="radio"
-            checked={fuelType === ft}
-            onChange={() => setFuelType(ft)}
-          />
-          {ft}
-        </label>
-      ))}
+      <Dropdown
+        title="Brandstof"
+        values={availableFuelTypes.map((ft) => ({
+          title: ft,
+          value: fuelType === ft,
+          onChange: () => setFuelType(ft),
+        }))}
+        render={(item, index) => {
+          return (
+            <label key={index} className="flex flex-row">
+              <input
+                type="radio"
+                checked={item.value}
+                onChange={() => item.onChange()}
+              />
+              <span className="text-sm">{item.title}</span>
+            </label>
+          );
+        }}
+      />
     </div>
   );
 }
