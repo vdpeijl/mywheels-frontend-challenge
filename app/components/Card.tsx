@@ -1,16 +1,22 @@
+import cx from "classnames";
+
 type Props = {
+  className?: string;
   children?: React.ReactNode;
 };
 
 export default function Card(props: Props) {
-  const { children } = props;
+  const { children, className } = props;
 
   return (
     <div
       data-test="card"
-      className="p-4 bg-white rounded-xl min-h-[300px] shadow-xl"
+      className={cx(
+        "p-8 bg-white rounded-3xl min-h-[350px] shadow-xl",
+        className
+      )}
     >
-      <div>{children}</div>
+      {children}
     </div>
   );
 }

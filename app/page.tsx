@@ -6,6 +6,9 @@ import List from "./components/List";
 import Card from "./components/Card";
 import Filters from "./components/Filters";
 import { useEffect } from "react";
+import Label from "./components/Label";
+import { Location } from "./components/icons";
+import { format } from "./lib/currency";
 
 export default function Page() {
   const query = useFilterStore((state) => state.query);
@@ -40,7 +43,7 @@ export default function Page() {
   });
 
   return (
-    <div className="p-12 w-[1024px] m-auto">
+    <div className="p-12 w-[1024px] m-auto max-w-full">
       <div className="mb-4">
         <div className="bg-white rounded-full p-6 shadow-xl">
           <Filters />
@@ -58,36 +61,58 @@ export default function Page() {
           className="grid grid-cols-3 gap-6"
           keyAttribute="resource.id"
           values={cars}
-          render={(item, index) => {
+          render={(item) => {
             return (
-              <Card>
+              <Card className="flex flex-col">
                 <h3 className="text-xl font-medium">{item.resource.brand}</h3>
                 <p className="text-sm">{item.resource.model}</p>
-                <p className="text-sm">{item.resource.fuelType}</p>
+
+                <p className="text-md mt-1  font-medium">
+                  {format(item.resource.price.hourRate)} per uur
+                </p>
+
+                <Label
+                  className="my-4 capitalize w-fit"
+                  color={
+                    item.resource.fuelType === "elektrisch" ? "green" : "blue"
+                  }
+                >
+                  {item.resource.fuelType ?? "Benzine"}
+                </Label>
 
                 {/* Address: */}
-                <p className="text-sm">
-                  {item.resource.location}
-                  {item.resource.streetNumber
-                    ? ` ${item.resource.streetNumber}`
-                    : ""}
-                  , {item.resource.city}
-                </p>
+                <div className="flex items-start">
+                  <div>
+                    <Location className="inline-block w-6 mr-1 text-xl" />
+                  </div>
+                  <div>
+                    <p className="text-sm mt-1">
+                      <span className="font-medium">{item.resource.city}</span>,{" "}
+                      {item.resource.location}
+                      {item.resource.streetNumber
+                        ? ` ${item.resource.streetNumber}`
+                        : ""}
+                    </p>
+                  </div>
+                </div>
 
-                {/* Options: */}
+                <div className="grid flex-grow content-end">
+                  {/* Options: */}
+                  <p className="text-sm">
+                    {item.availability ? "Beschikbaar" : "Niet beschikbaar"}
+                  </p>
+                  <p className="text-sm">
+                    {item.resource.options.towbar
+                      ? "Trekhaak"
+                      : "Geen trekhaak"}
+                  </p>
 
-                <p className="text-sm">
-                  {item.availability ? "Beschikbaar" : "Niet beschikbaar"}
-                </p>
-                <p className="text-sm">
-                  {item.resource.options.towbar ? "Trekhaak" : "Geen trekhaak"}
-                </p>
-
-                <p className="text-sm">
-                  {item.resource.options.winterTires
-                    ? "Winterbanden"
-                    : "Geen winterbanden"}
-                </p>
+                  <p className="text-sm">
+                    {item.resource.options.winterTires
+                      ? "Winterbanden"
+                      : "Geen winterbanden"}
+                  </p>
+                </div>
               </Card>
             );
           }}

@@ -45,24 +45,27 @@ export default function Filters() {
         title="Opties"
         values={[
           {
-            title: "Trekhaak?",
+            title: "Trekhaak",
             value: towbar,
             onChange: () => setTowbar(!towbar),
           },
           {
-            title: "Beschikbaar?",
+            title: "Nu beschikbaar",
             value: onlyAvailable,
             onChange: () => setOnlyAvailable(!onlyAvailable),
           },
           {
-            title: "Winterbanden?",
+            title: "Winterbanden",
             value: winterTires,
             onChange: () => setWinterTires(!winterTires),
           },
         ]}
         render={(item, index) => {
           return (
-            <label key={index} className="flex flex-row">
+            <label
+              key={index}
+              className="flex flex-row gap-2 py-2 px-3 min-w-[200px] cursor-pointer"
+            >
               <input
                 type="checkbox"
                 checked={item.value}
@@ -83,7 +86,10 @@ export default function Filters() {
         }))}
         render={(item, index) => {
           return (
-            <label key={index} className="flex flex-row min-w-[200px]">
+            <label
+              key={index}
+              className="flex flex-row gap-2 py-2 px-3 min-w-[200px] cursor-pointer"
+            >
               <input
                 type="checkbox"
                 checked={item.value}
@@ -104,13 +110,16 @@ export default function Filters() {
         }))}
         render={(item, index) => {
           return (
-            <label key={index} className="flex flex-row">
+            <label
+              key={index}
+              className="flex flex-row gap-2 py-2 px-3 min-w-[200px] cursor-pointer"
+            >
               <input
                 type="radio"
                 checked={item.value}
                 onChange={() => item.onChange()}
               />
-              <span className="text-sm">{item.title}</span>
+              <span className="text-sm capitalize">{item.title}</span>
             </label>
           );
         }}
