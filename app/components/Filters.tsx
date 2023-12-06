@@ -12,6 +12,7 @@ export default function Filters() {
   const query = useFilterStore((state) => state.query);
   const onlyAvailable = useFilterStore((state) => state.onlyAvailable);
   const winterTires = useFilterStore((state) => state.winterTires);
+  const priceRange = useFilterStore((state) => state.priceRange);
 
   const availableRates = useFilterStore((state) => state.availableRates);
   const availableModels = useFilterStore((state) => state.availableModels);
@@ -38,6 +39,19 @@ export default function Filters() {
     } else {
       setModels([...models, model]);
     }
+  }
+
+  function resetFilters() {
+    setQuery("");
+    setTowbar(false);
+    setModels([]);
+    setFuelType(null);
+    setOnlyAvailable(false);
+    setWinterTires(false);
+    setPriceRange([
+      availableRates[0],
+      availableRates[availableRates.length - 1],
+    ]);
   }
 
   return (
@@ -154,6 +168,7 @@ export default function Filters() {
           return (
             <div className="py-2 px-6 min-w-[250px]">
               <Slider
+                value={priceRange}
                 min={availableRates[0]}
                 max={availableRates[availableRates.length - 1]}
                 marks={marks}
@@ -163,6 +178,15 @@ export default function Filters() {
           );
         }}
       />
+
+      <div className="flex grow items-center justify-end">
+        <span
+          className="text-xs hover:underline cursor-pointer"
+          onClick={() => resetFilters()}
+        >
+          Herstel filters
+        </span>
+      </div>
     </div>
   );
 }
