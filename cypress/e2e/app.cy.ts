@@ -16,7 +16,6 @@ describe("Search", () => {
 describe("Option Filter", () => {
   it("should filter results based on option selected", () => {
     cy.visit("http://localhost:9009/");
-    cy.wait(1000);
     cy.get("[data-test=dropdown-trigger]").first().click();
     cy.get("[data-test=dropdown-content]").find("label").first().click();
 
@@ -34,7 +33,6 @@ describe("Option Filter", () => {
 describe("Model Filter", () => {
   it("should filter results based on model selected", () => {
     cy.visit("http://localhost:9009/");
-    cy.wait(1000);
     cy.get("[data-test=dropdown-trigger]").eq(1).click();
     cy.get("[data-test=dropdown-content]").find("label").first().click();
 
@@ -52,7 +50,6 @@ describe("Model Filter", () => {
 describe("Fuel Type Filter", () => {
   it("should filter results based on fuel type selected", () => {
     cy.visit("http://localhost:9009/");
-    cy.wait(1000);
     cy.get("[data-test=dropdown-trigger]").eq(2).click();
     cy.get("[data-test=dropdown-content]").find("label").first().click();
 
