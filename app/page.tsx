@@ -82,7 +82,7 @@ export default function Page() {
                 <h3 className="text-xl font-medium">{item.resource.brand}</h3>
                 <p className="text-sm">{item.resource.model}</p>
 
-                <p className="text-md mt-1  font-medium">
+                <p data-test="price" className="text-md mt-1 font-medium">
                   {format(item.resource.price.hourRate)} per uur
                 </p>
 
