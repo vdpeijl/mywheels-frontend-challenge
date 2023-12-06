@@ -5,7 +5,7 @@ import { Caret } from "./icons";
 
 type Props<T> = {
   values: T[];
-  render: (item: T, index: number) => React.ReactNode;
+  render: (item: T, index: number, keyAttribute: string) => React.ReactNode;
   /** @param string Used to define a key. Uses path resolution from Lodash's 'get' function. */
   keyAttribute?: string;
   title: string;
@@ -33,7 +33,9 @@ export default function Dropdown<T>(props: Props<T>) {
           className="absolute bg-white rounded-xl shadow-xl top-9 border border-zinc-100"
         >
           {values.map((item, index) => (
-            <div key={get(item, keyAttribute)}>{render(item, index)}</div>
+            <div key={get(item, keyAttribute)}>
+              {render(item, index, get(item, keyAttribute))}
+            </div>
           ))}
         </div>
       )}
