@@ -1,11 +1,11 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type { Car, CarFilter } from "../types/car";
 import { api } from "../lib/api";
 
 export const useCars = (filter: CarFilter) => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ["cars", filter],
     queryFn: () =>
       api<Car>({

@@ -5,18 +5,23 @@ import useFilterStore from "./store/filters";
 import List from "./components/List";
 import Card from "./components/Card";
 import Filters from "./components/Filters";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Label from "./components/Label";
 import { Location, Check, Cross } from "./components/icons";
 import { format } from "./lib/currency";
 
 export default function Page() {
+  const [initialized, setInitialized] = useState(false);
+
+  const filters = useFilterStore((state) => ({
+    towbar: state.towbar,
+    models: state.models,
+    fuelType: state.fuelType,
+    onlyAvailable: state.onlyAvailable,
+    winterTires: state.winterTires,
+  }));
+
   const query = useFilterStore((state) => state.query);
-  const towbar = useFilterStore((state) => state.towbar);
-  const models = useFilterStore((state) => state.models);
-  const fuelType = useFilterStore((state) => state.fuelType);
-  const onlyAvailable = useFilterStore((state) => state.onlyAvailable);
-  const winterTires = useFilterStore((state) => state.winterTires);
   const priceRange = useFilterStore((state) => state.priceRange);
 
   const filter = useFilterStore((state) => state.filter);
@@ -25,29 +30,28 @@ export default function Page() {
     (state) => state.setInitialFilterData
   );
 
-  const { data } = useCars({
-    towbar,
-    models,
-    fuelType,
-    onlyAvailable,
-    winterTires,
-  });
+  const { data, isLoading } = useCars(filters);
 
   useEffect(() => {
+    if (initialized || !data) return;
     setInitialFilterData(data.result.results);
-  }, []);
+    setInitialized(true);
+  }, [initialized, data]);
 
-  const filtered = filter(data.result.results);
-  const searched = search(data.result.results, query);
+  const cars = useMemo(() => {
+    if (!data) return [];
+    const filtered = filter(data.result.results);
+    const searched = search(data.result.results, query);
 
-  const inPriceRange = searched.filter((car) => {
-    const hourRate = parseFloat(car.resource.price.hourRate);
-    return hourRate >= priceRange[0] && hourRate <= priceRange[1];
-  });
+    const inPriceRange = searched.filter((car) => {
+      const hourRate = parseFloat(car.resource.price.hourRate);
+      return hourRate >= priceRange[0] && hourRate <= priceRange[1];
+    });
 
-  const cars = inPriceRange.filter((car) => {
-    return !filtered.find((item) => item.resource.id === car.resource.id);
-  });
+    return inPriceRange.filter((car) => {
+      return !filtered.find((item) => item.resource.id === car.resource.id);
+    });
+  }, [data, query, filters, priceRange]);
 
   return (
     <div className="p-12 w-[1024px] m-auto max-w-full">
@@ -57,9 +61,13 @@ export default function Page() {
         </div>
 
         <div className="text-right text-white mt-4 pr-8">
-          <span>
-            {cars.length === 0 ? "Geen" : cars.length} resultaten gevonden
-          </span>
+          {isLoading ? (
+            <span>Bezig met zoeken...</span>
+          ) : (
+            <span>
+              {cars.length === 0 ? "Geen" : cars.length} resultaten gevonden
+            </span>
+          )}
         </div>
       </div>
 
