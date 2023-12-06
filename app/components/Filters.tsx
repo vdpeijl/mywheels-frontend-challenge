@@ -1,5 +1,6 @@
 "use client";
 
+import { format } from "../lib/currency";
 import useFilterStore from "../store/filters";
 import Dropdown from "./Dropdown";
 import Slider from "./Slider";
@@ -19,7 +20,7 @@ export default function Filters() {
   );
 
   const marks = availableRates.reduce((acc, item) => {
-    acc[item] = item;
+    acc[item] = format(item);
     return acc;
   }, {});
 
@@ -151,7 +152,7 @@ export default function Filters() {
         ]}
         render={() => {
           return (
-            <div className="py-2 px-6 min-w-[200px]">
+            <div className="py-2 px-6 min-w-[250px]">
               <Slider
                 min={availableRates[0]}
                 max={availableRates[availableRates.length - 1]}

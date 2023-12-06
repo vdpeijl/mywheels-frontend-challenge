@@ -39,6 +39,7 @@ export default function Page() {
 
   const filtered = filter(data.result.results);
   const searched = search(data.result.results, query);
+
   const inPriceRange = searched.filter((car) => {
     const hourRate = parseFloat(car.resource.price.hourRate);
     return hourRate >= priceRange[0] && hourRate <= priceRange[1];

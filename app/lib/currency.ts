@@ -1,10 +1,20 @@
-export const format = (value: number | string) => {
+const defaultOptions: Intl.NumberFormatOptions = {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+  style: "currency",
+  currency: "EUR",
+};
+
+export const format = (
+  value: number | string,
+  options?: Intl.NumberFormatOptions
+) => {
   if (typeof value === "string") {
     value = parseFloat(value);
   }
 
   return value.toLocaleString("nl-NL", {
-    style: "currency",
-    currency: "EUR",
+    ...defaultOptions,
+    ...options,
   });
 };
